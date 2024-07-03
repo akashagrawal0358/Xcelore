@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
-    const [fname, setFname] = useState('');
-    const [lname, setLname] = useState('');  
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,11 +14,12 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/auth/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      navigate('/admin');
+      console.log(" frontend......");
+      const response = await axios.post('http://localhost:8000/api/auth/register', { firstName: fname, lastName: lname, email, password });
+      console.log(response);
+      navigate('/login');
     } catch (error) {
-      setError('Invalid email or password');
+      setError('Error registering user');
     }
   };
 
@@ -28,11 +28,11 @@ const Register = () => {
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card mt-5">
-            <div className="card-body ">
+            <div className="card-body">
               <h3 className="card-title text-center py-2">Register</h3>
               <form onSubmit={handleSubmit}>
-              <div className="form-group py-2">
-                  <label htmlFor="fname py-2">First Name</label>
+                <div className="form-group py-2">
+                  <label htmlFor="fname">First Name</label>
                   <input
                     type="text"
                     className="form-control my-2"
@@ -44,7 +44,7 @@ const Register = () => {
                   />
                 </div>
                 <div className="form-group py-2">
-                  <label htmlFor="email py-2">Last Name </label>
+                  <label htmlFor="lname">Last Name</label>
                   <input
                     type="text"
                     className="form-control my-2"
@@ -56,7 +56,7 @@ const Register = () => {
                   />
                 </div>
                 <div className="form-group py-2">
-                  <label htmlFor="email py-2">Email address</label>
+                  <label htmlFor="email">Email address</label>
                   <input
                     type="email"
                     className="form-control my-2"
@@ -68,7 +68,7 @@ const Register = () => {
                   />
                 </div>
                 <div className="form-group py-2">
-                  <label htmlFor="password py-2">Password</label>
+                  <label htmlFor="password">Password</label>
                   <input
                     type="password"
                     className="form-control my-2"
@@ -84,12 +84,12 @@ const Register = () => {
                   Register
                 </button>
               </form>
+              <NavLink className="nav-link active btn btn-secondary  my-2 mx-2 p-1" aria-current="page" to="/login">Login Here</NavLink>
             </div>
           </div>
         </div>
       </div>
     </div>
-    
   );
 };
 

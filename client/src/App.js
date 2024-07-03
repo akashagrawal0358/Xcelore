@@ -1,19 +1,24 @@
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Register from './components/Register';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AdminDashboard from './components/AdminDashboard';
+import UserDashboard from './components/UserDashboard';
 import Login from './components/Login';
-import AdminPanel from './components/AdminPanel';
-import Home from './components/Home';
+import Register from './components/Register';
+import { AuthProvider } from './context/AuthContext';
+import { Navigate } from 'react-router-dom';
+import { AdminRoute, UserRoute } from './ProtectedRoutes';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/admin" element={<AdminPanel/>} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/user" element={<UserRoute><UserDashboard /></UserRoute>} />
+          <Route path="/" element={<Navigate to="/login" />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
