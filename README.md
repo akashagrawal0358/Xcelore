@@ -14,19 +14,19 @@ Node.js
 MongoDB
 npm 
 
-Install server dependencies:
+##Install server dependencies:
 cd server
 npm install
 
-Install client dependencies:
+##Install client dependencies:
 cd client
 npm install
 
-Start the server:
+##Start the server:
 cd server
 nodemon start
 
-Start the client:
+##Start the client:
 cd client
 npm start
 
