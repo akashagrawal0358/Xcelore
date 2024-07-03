@@ -11,21 +11,22 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = async (email, password) => {
+    console.log( "login 2............" );
     try {
       const response = await axios.post('http://localhost:8000/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       setIsAuthenticated(true);
 
       console.log(response.data.user);
-
-      setUserRole(response.data.role);
+      
+      setUserRole(response.data.user.role);
       setUserInfo(response.data.user); 
-
-      // if (response.data.role === 'admin') {
-      //   navigate('/admin');
-      // } else {
-      //   navigate('/user');
-      // }
+      console.log( "login 222............" );
+      if (response.data.user.role === 'Admin') {
+        navigate('/admin');
+      } else {
+        navigate('/user');
+      }
     } catch (error) {
       console.error('Login error:', error);
       setIsAuthenticated(false);

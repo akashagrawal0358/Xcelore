@@ -15,8 +15,12 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:8000/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
-      login(email, password);
-      if (response.data.role == 'admin') {
+
+      console.log( "login 1............" );
+      login(email, password );
+      console.log( "login 3............" );
+
+      if (response.data.user.role == 'Admin') {
         navigate('/admin');
       }else{
         navigate('/user');
@@ -33,7 +37,7 @@ const Login = () => {
         <div className="col-md-6">
           <div className="card mt-5">
             <div className="card-body">
-              <h3 className="card-title text-center py-2">Login</h3>
+              <h3 className="card-title text-center py-3">Login</h3>
               <form onSubmit={handleSubmit}>
                 <div className="form-group py-2">
                   <label htmlFor="email">Email address</label>

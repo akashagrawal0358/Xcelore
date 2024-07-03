@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const AdminDashboard = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
@@ -66,42 +67,45 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Admin Dashboard</h1>
-      <button onClick={logout} className="btn btn-danger">Logout</button>
-      <h2>Users</h2>
-      <ul className="list-group">
-        {users.map((user) => (
-          <li key={user._id} className="list-group-item d-flex justify-content-between align-items-center">
-            {user.firstName} {user.lastName} ({user.email})
-            <div>
-              <button className="btn btn-primary mx-2" onClick={() => handleEditUser(user)}>Edit</button>
-              <button className="btn btn-danger" onClick={() => handleDeleteUser(user._id)}>Delete</button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <h2>{selectedUser ? 'Edit User' : 'Add User'}</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>First Name</label>
-          <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
-        </div>
-        <div className="form-group">
-          <label>Last Name</label>
-          <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
-        </div>
-        <div className="form-group">
-          <label>Email</label>
-          <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} required />
-        </div>
-        <div className="form-group form-check">
-          <input type="checkbox" className="form-check-input" name="isAdmin" checked={formData.isAdmin} onChange={handleInputChange} />
-          <label className="form-check-label">Admin</label>
-        </div>
-        <button type="submit" className="btn btn-primary">{selectedUser ? 'Update User' : 'Add User'}</button>
-      </form>
-    </div>
+    <>
+      <Navbar/>
+      <div className="container my-3">
+        {/* <h1>Admin Dashboard</h1> */}
+  
+        <h2>Users</h2>
+        <ul className="list-group">
+          {users.map((user) => (
+            <li key={user._id} className="list-group-item d-flex justify-content-between align-items-center">
+              {user.firstName} {user.lastName} ({user.email})
+              <div>
+                <button className="btn btn-primary mx-2" onClick={() => handleEditUser(user)}>Edit</button>
+                <button className="btn btn-danger" onClick={() => handleDeleteUser(user._id)}>Delete</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <h2>{selectedUser ? 'Edit User' : 'Add User'}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>First Name</label>
+            <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
+          </div>
+          <div className="form-group">
+            <label>Last Name</label>
+            <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
+          </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} required />
+          </div>
+          <div className="form-group form-check">
+            <input type="checkbox" className="form-check-input" name="isAdmin" checked={formData.isAdmin} onChange={handleInputChange} />
+            <label className="form-check-label">Admin</label>
+          </div>
+          <button type="submit" className="btn btn-primary">{selectedUser ? 'Update User' : 'Add User'}</button>
+        </form>
+      </div>
+    </>
   );
 };
 
