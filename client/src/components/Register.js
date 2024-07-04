@@ -15,7 +15,7 @@ const Register = () => {
     e.preventDefault();
     try {
       console.log(" frontend......");
-      const response = await axios.post('http://localhost:8000/api/auth/register', { firstName: fname, lastName: lname, email, password });
+      const response = await axios.post('http://localhost:8000/api/auth/register', { firstName: fname, lastName: lname, email, password  });
       console.log(response);
       navigate('/login');
     } catch (error) {

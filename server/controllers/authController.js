@@ -7,7 +7,7 @@ exports.register = async (req, res) => {
   const { firstName, lastName, email, password, role } = req.body;
 
   // Basic validation
-  if (!firstName || !lastName || !email || !password || !role) {
+  if (!firstName || !lastName || !email || !password ) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
