@@ -5,16 +5,39 @@ const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
   const { firstName, lastName, email, password, role } = req.body;
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ firstName, lastName, email, password: hashedPassword, role });
-    await user.save();
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
 
+  // Basic validation
+  if (!firstName || !lastName || !email || !password || !role) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try {
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      role
+    });
+     // Save the user
+     await newUser.save();
+
+     // Respond with the created user (or you can create a token here if needed)
+     res.status(201).json(newUser);
+   } catch (error) {
+     res.status(500).json({ message: error.message });
+   }
+ };
 
 //   ----------------------- Login --------------------------------------------
 

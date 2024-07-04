@@ -73,6 +73,7 @@ const AdminDashboard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form Data:', formData); // Log the form data
     try {
       if (selectedUser) {
         await axios.put(`http://localhost:8000/api/auth/users/${selectedUser._id}`, formData, {
@@ -87,7 +88,7 @@ const AdminDashboard = () => {
           }
         });
       }
-      setFormData({ firstName: '', lastName: '', email: '', role: '' });
+      setFormData({ firstName: '', lastName: '', email: '', password: '', role: 'User' });
       setSelectedUser(null);
       fetchUsers();
       setActiveTab('displayUsers');
@@ -136,6 +137,10 @@ const AdminDashboard = () => {
               <div className="form-group">
                 <label>Email</label>
                 <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} required />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} required />
               </div>
               <div className="form-group">
                 <label>Role</label>
