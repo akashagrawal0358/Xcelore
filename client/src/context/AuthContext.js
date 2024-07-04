@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,7 +8,22 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+
+  const [token, setToken] = useState(null);
   const navigate = useNavigate();
+
+
+
+  useEffect(() => {
+    // Fetch token from local storage 
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+      setIsAuthenticated(true);
+    }
+})
+
+
 
   const login = async (email, password) => {
     console.log( "login 2............" );
@@ -44,7 +59,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRole, userInfo, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userRole, userInfo, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );

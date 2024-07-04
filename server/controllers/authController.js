@@ -3,15 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 
-
-
-//   -----------------------  Register --------------------------------------------
-
 exports.register = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, role } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ firstName, lastName, email, password: hashedPassword });
+    const user = new User({ firstName, lastName, email, password: hashedPassword, role });
     await user.save();
     res.status(201).json(user);
   } catch (error) {
@@ -49,6 +45,8 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+
+
 exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const { firstName, lastName, email, isAdmin } = req.body;
@@ -75,7 +73,7 @@ exports.deleteUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    await user.remove();
+    await User.findByIdAndDelete(id);  // Use findByIdAndDelete instead of user.remove()
     res.json({ message: 'User deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
